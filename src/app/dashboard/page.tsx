@@ -2,7 +2,6 @@
 import Map from '@/components/map/map';
 import { Chart } from '../components/vote-chart/chart';
 import { EPoliticalPartyId } from '../constants';
-import TAIWAN_AREA from '../../../public/vote-data/taiwanArea.json';
 import { useState } from 'react';
 
 export default function Home() {
@@ -32,24 +31,26 @@ export default function Home() {
       <div className="md:w-2/5 w-full md:h-screen pt-[100px]">
         <div className="p-10">
           <Chart
-            politicalPartyId={EPoliticalPartyId.DPP}
+            // politicalPartyId={EPoliticalPartyId.DPP}
             cityId={currentSelectArea.county}
             townId={currentSelectArea.town}
+            villageId={currentSelectArea.village}
           />
         </div>
 
-        <div className="flex">
+        {/* <div className="flex">
           <div className="p-10">
             <Chart
               politicalPartyId={EPoliticalPartyId.DPP}
               cityId={currentSelectArea.county}
               townId={currentSelectArea.town}
+              villageId={currentSelectArea.village}
             />
           </div>
           <div className="p-10">
             <Chart cityId={currentSelectArea.county} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
