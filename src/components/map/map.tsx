@@ -14,6 +14,7 @@ import taiwanAreaJson from '../../../public/vote-data/taiwanArea.json';
 import voteDetailJson from '../../../public/vote-data/voteDetail.json';
 import { Button } from '../ui/button';
 import { EPoliticalPartyId } from '@/app/constants';
+import { useRouter, useSearchParams } from 'next/navigation';
 const taiwanArea = JSON.parse(JSON.stringify(taiwanAreaJson));
 const voteDetail = JSON.parse(JSON.stringify(voteDetailJson));
 const levelMap: Record<LEVEL, string> = {
@@ -124,6 +125,9 @@ type MapProps = {
 
 export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
   const responsive = useResponsive();
+  const searchParams = useSearchParams();
+  const politicalPartyId = searchParams.get('politicalPartyId');
+  const router = useRouter();
   const map = useRef<SVGSVGElement>(null);
   const zoom = d3
     .zoom()
@@ -248,6 +252,11 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
         );
     }
   };
+
+  const resetToAllPolitical = () => {
+    reset();
+    router.push('/dashboard');
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = async (
     mapEl: SVGSVGElement,
@@ -327,8 +336,16 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
 
   return (
     <>
+      {politicalPartyId && (
+        <Button className="absolute m-3" onClick={resetToAllPolitical}>
+          看所有政黨分佈
+        </Button>
+      )}
       {level !== LEVEL.COUNTY && (
-        <Button className="absolute m-3" onClick={reset}>
+        <Button
+          className={`absolute m-3 ${politicalPartyId ? 'mt-16' : ''}`}
+          onClick={reset}
+        >
           回全國
         </Button>
       )}
